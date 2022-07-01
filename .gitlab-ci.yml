@@ -1,0 +1,15 @@
+variables:
+  DOCKER_PASSWORD: $DOCKER_PASSWORD
+  $DOCKER_USERNAME: $DOCKER_USERNAME
+
+build-push-docker-image-job:
+  # Specify a Docker image to run the job in.
+  image: docker:latest
+  # Specify an additional image 'docker:dind' ("Docker-in-Docker") that
+  # will start up the Docker daemon when it is brought up by a runner.
+  services:
+    - docker:dind
+  script:
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - docker build -t udacity-docker-app-exercise .
+    - docker push braveokafor/udacity-docker-app-exercise
